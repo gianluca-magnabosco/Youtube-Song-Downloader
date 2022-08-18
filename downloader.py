@@ -1,6 +1,9 @@
 from classes.programGUI import ProgramGUI
+from functions.aux_functions import createDesktopShortcut
 
 def main():
+    createDesktopShortcut()
+    
     programGUI = ProgramGUI()
     programGUI.initGUI()
 
