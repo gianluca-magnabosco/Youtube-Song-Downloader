@@ -26,7 +26,7 @@ class ProgramGUI(YoutubeDownloader):
     
 
     def onCloseRoot(self):
-        close = messagebox.askokcancel("Confirmação", "Tem certeza que deseja fechar o programa?")
+        close = messagebox.askokcancel("Confirmation", "Are you sure you want to close the program?")
         if close:
             self.root.destroy()
             sys.exit()
