@@ -124,7 +124,7 @@ class ProgramGUI(YoutubeDownloader):
             self.addLabel.destroy()
         except:
             pass
-        self.addLabel = tk.Label(text = "Adding...", wraplength = 200, font = ("", 14, "bold"), fg = "green")
+        self.addLabel = tk.Label(text = "Adding...", wraplength = 200, font = ("", 14, "bold"))
         self.addLabel.pack()
         self.addLabel.place(relx = 0.45, rely = 0.76)
         self.addLabel.after(5000, self.on_after)
