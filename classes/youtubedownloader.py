@@ -2,6 +2,8 @@ from pytube import Search
 from datetime import timedelta
 from tkinter import messagebox
 import re
+import os
+import subprocess
 
 
 class YoutubeDownloader():
@@ -38,4 +40,8 @@ class YoutubeDownloader():
     def downloadSongs(self):
         for song in self.songStreams:
             song["stream"].download(output_path = "sounds/", filename = song["file_name"])
+            mp3file = song["file_name"][:-4] + ".mp3"
+            subprocess.run(["ffmpeg", "-i", f"sounds/{song['file_name']}", f"sounds/{mp3file}"])
+            os.remove(f"sounds/{song['file_name']}")
+            
         self.songStreams = []
