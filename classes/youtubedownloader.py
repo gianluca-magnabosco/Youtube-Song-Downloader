@@ -82,5 +82,5 @@ class YoutubeDownloader():
 
     def convertSongToMP3(self, song):
         mp3file = song["file_name"][:-4] + ".mp3"
-        subprocess.run(["ffmpeg", "-y", "-i", f"sounds/{song['file_name']}", f"sounds/{mp3file}"])
+        subprocess.run(["ffmpeg", "-y", "-i", f"sounds/{song['file_name']}", f"sounds/{mp3file}"], creationflags = subprocess.CREATE_NO_WINDOW)
         os.remove(f"sounds/{song['file_name']}")

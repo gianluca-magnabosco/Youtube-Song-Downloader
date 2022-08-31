@@ -65,6 +65,7 @@ class ProgramGUI(YoutubeDownloader):
         self.insertEntry = ttk.Entry(self.root, textvariable = self.insertVariable, width = 80)
         self.insertEntry.place(relx = 0.5, rely = 0.048, anchor = CENTER)
         self.insertEntry.bind("<Return>", self.returnHandler)
+        self.insertEntry.focus_set()
 
 
     def initButtons(self):
