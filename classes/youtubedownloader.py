@@ -1,9 +1,9 @@
+import os
+import subprocess
 from pytube import Search
 from datetime import timedelta
 from tkinter import messagebox
 import re
-#import os
-#import subprocess
 
 
 class YoutubeDownloader():
@@ -37,13 +37,17 @@ class YoutubeDownloader():
             messagebox.showerror("Error", "Video not found or is unavailable")
         
     
-    def downloadSongs(self):
+    def downloadSongs(self, convert):
         for song in self.songStreams:
             song["stream"].download(output_path = "sounds/", filename = song["file_name"])
             
-            ####### converting to mp3 ######
-            #mp3file = song["file_name"][:-4] + ".mp3"
-            #subprocess.run(["ffmpeg", "-i", f"sounds/{song['file_name']}", f"sounds/{mp3file}"])
-            #os.remove(f"sounds/{song['file_name']}")
+            if convert is True:
+                self.convertSongToMP3(song)
             
         self.songStreams = []
+
+
+    def convertSongToMP3(self, song):
+        mp3file = song["file_name"][:-4] + ".mp3"
+        subprocess.run(["ffmpeg", "-i", f"sounds/{song['file_name']}", f"sounds/{mp3file}"])
+        os.remove(f"sounds/{song['file_name']}")

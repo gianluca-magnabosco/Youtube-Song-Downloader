@@ -44,6 +44,7 @@ class ProgramGUI(YoutubeDownloader):
         self.initLabels()
         self.initEntry()
         self.initButtons()
+        self.initCheckBox()
         self.initTreeView()
 
         self.root.mainloop()
@@ -92,6 +93,13 @@ class ProgramGUI(YoutubeDownloader):
         self.openFolderButton.image = image
         self.openFolderButton.pack()
         self.openFolderButton.place(relx = 0.85, rely = 0.85)
+
+
+    def initCheckBox(self):
+        self.convertCheckBoxVar = tk.IntVar()
+        self.convertCheckBox = ttk.Checkbutton(self.root, text = "Convert to MP3", variable = self.convertCheckBoxVar, onvalue=1, offvalue=0)
+        self.convertCheckBox.pack()
+        self.convertCheckBox.place(relx = 0.56, rely = 0.855)
 
 
     def initTreeView(self):
@@ -197,7 +205,13 @@ class ProgramGUI(YoutubeDownloader):
             return
 
         self.songID = 0
-        self.downloadSongs()
+        
+        if self.convertCheckBoxVar.get() == 1:
+            convert = True
+        else:
+            convert = False
+
+        self.downloadSongs(convert)
 
         i = 0
         for video in self.treeView.get_children():
