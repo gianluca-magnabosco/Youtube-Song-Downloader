@@ -127,25 +127,25 @@ class ProgramGUI(YoutubeDownloader):
         self.addLabel.destroy()
 
 
-    def showAddingLabel(self):
+    def showAddingLabel(self, text, x = 0.45):
         try:
             self.addLabel.destroy()
         except:
             pass
-        self.addLabel = tk.Label(text = "Adding...", wraplength = 200, font = ("", 14, "bold"))
+        self.addLabel = tk.Label(text = text, wraplength = 200, font = ("", 14, "bold"))
         self.addLabel.pack()
-        self.addLabel.place(relx = 0.45, rely = 0.76)
+        self.addLabel.place(relx = x, rely = 0.76)
         self.addLabel.after(5000, self.on_after)
 
 
-    def showAddedLabel(self):
+    def showAddedLabel(self, text, x = 0.45):
         try:
             self.addLabel.destroy()
         except:
             pass
-        self.addLabel = tk.Label(text = "Added!", wraplength = 200, font = ("", 14, "bold"), fg = "green")
+        self.addLabel = tk.Label(text = text, wraplength = 200, font = ("", 14, "bold"), fg = "green")
         self.addLabel.pack()
-        self.addLabel.place(relx = 0.45, rely = 0.76)
+        self.addLabel.place(relx = x, rely = 0.76)
         self.addLabel.after(5000, self.on_after)
 
 
@@ -169,18 +169,19 @@ class ProgramGUI(YoutubeDownloader):
         while self.threadQueue[0] != threadHash:
             time.sleep(1)
 
-        self.showAddingLabel()
+        self.showAddingLabel("Adding...")
 
         videoAttributes = self.getVideoAttributes(currentEntry)
         if videoAttributes is None:
             messagebox.showerror("Error", "Video not found or is unavailable")
+            self.threadQueue.pop(0)
             return
 
         self.songID += 1
         self.treeView.insert("", "end", values = (self.songID, videoAttributes[0], videoAttributes[1]))
 
         self.threadQueue.pop(0)
-        self.showAddedLabel()
+        self.showAddedLabel("Added!")
 
 
     def removeFromTreeView(self):
@@ -203,13 +204,13 @@ class ProgramGUI(YoutubeDownloader):
         if len(self.threadQueue) > 0:
             messagebox.showwarning("Atention!", "Wait for all the videos to be added")
             return
-
-        self.songID = 0
         
         if self.convertCheckBoxVar.get() == 1:
             convert = True
         else:
             convert = False
+
+        self.songID = 0
 
         self.downloadSongs(convert)
 
@@ -221,8 +222,15 @@ class ProgramGUI(YoutubeDownloader):
         if i == 0:
             messagebox.showerror("Error", "There are no videos on the list!")
             return
+        
+        self.showAddingLabel("Downloading...", 0.42)
+        self.addLabel.update_idletasks()
 
-        messagebox.showinfo("Success!", "All the videos were downloaded successfully!")
+        while len(self.downloadSongsThreadQueue) > 0:
+            time.sleep(1)
+        
+        self.showAddedLabel("Downloaded!", 0.423)
+
     
 
     def openFolder(self):
